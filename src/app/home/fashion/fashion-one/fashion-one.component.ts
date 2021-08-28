@@ -29,11 +29,11 @@ export class FashionOneComponent implements OnInit {
   public ProductSliderConfig: any = ProductSlider;
 
   public sliders = [{
-    title: 'welcome to fashion',
+    title: 'Bienvenue sur DealTout',
     subTitle: 'Men fashion',
     image: 'assets/images/slider/1.jpg'
   }, {
-    title: 'welcome to fashion',
+    title: 'Veuillez faire une',
     subTitle: 'Women fashion',
     image: 'assets/images/slider/2.jpg'
   }]

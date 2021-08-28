@@ -21,7 +21,7 @@ export class AppComponent {
   constructor(@Inject(PLATFORM_ID) private platformId: Object,
     private loader: LoadingBarService, translate: TranslateService) {
     if (isPlatformBrowser(this.platformId)) {
-      translate.setDefaultLang('en');
+      translate.setDefaultLang('fr');
       translate.addLangs(['en', 'fr']);
     }
   }

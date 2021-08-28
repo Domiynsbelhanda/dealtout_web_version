@@ -1,8 +1,8 @@
 {
   "topbar-title": "Bienvenue dans notre magasin Multikart",
   "call-us": "Appelez nous",
-  "home": "maison",
-  "shop": "boutique",
+  "home": "Accueil",
+  "shop": "Appareil Electronique",
   "products": "Des produits",
   "features": "Caractéristiques",
   "new": "Nouveau",
@@ -82,5 +82,10 @@
   "coming-soon": "Bientôt disponible",
   "dashboard": "Tableau de bord",
   "FAQ": "FAQ",
-  "blog-details": "détails du blog"
+  "blog-details": "détails du blog",
+  "electronic": "Electronique",
+  "immo": "Immobilier",
+  "phone": "Appareil Mobile",
+  "habillement": "Habillement",
+  "autres": "Autres"
 }

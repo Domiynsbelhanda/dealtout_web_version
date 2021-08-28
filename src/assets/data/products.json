@@ -7,7 +7,7 @@
         "collection": ["new products"],
         "category": "Women",
         "price": 145,
-        "sale": true,
+        "sale": false,
         "discount": "40",
         "stock": 5,
         "new": true,

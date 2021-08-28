@@ -19,15 +19,15 @@ import { MarijuanaComponent } from './marijuana/marijuana.component';
 
 const routes: Routes = [
   {
-    path: 'fashion',
+    path: 'home',
     component: FashionOneComponent
   },
-  {
-    path: 'fashion-2',
+  /*{
+    path: 'home-2',
     component: FashionTwoComponent
   },
   {
-    path: 'fashion-3',
+    path: 'home-3',
     component: FashionThreeComponent
   },
   {
@@ -77,7 +77,7 @@ const routes: Routes = [
   {
     path: 'marijuana',
     component: MarijuanaComponent
-  }
+  }*/
 ];
 
 @NgModule({
