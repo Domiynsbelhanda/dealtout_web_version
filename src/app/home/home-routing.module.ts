@@ -22,6 +22,10 @@ const routes: Routes = [
     path: 'home',
     component: FashionOneComponent
   },
+  {
+    path: 'electronics',
+    component: ElectronicsComponent
+  },
   /*{
     path: 'home-2',
     component: FashionTwoComponent
@@ -49,10 +53,6 @@ const routes: Routes = [
   {
     path: 'beauty',
     component: BeautyComponent
-  },
-  {
-    path: 'electronics',
-    component: ElectronicsComponent
   },
   {
     path: 'pets',

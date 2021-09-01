@@ -16,11 +16,25 @@ import { ShopComponent } from './shop/shop.component';
 import { PagesComponent } from './pages/pages.component';
 import { ElementsComponent } from './elements/elements.component';
 
+import { provideFirebaseApp, getApp, initializeApp } from '@angular/fire/app';
+import { getFirestore, provideFirestore } from '@angular/fire/firestore';
+import { AngularFireModule } from '@angular/fire/compat';
 
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(http: HttpClient) {
    return new TranslateHttpLoader(http, "./assets/i18n/", ".json");
 }
+
+const firebaseConfig = {
+  apiKey: "AIzaSyC4dIzq7mdtfv08o69Q2iP4yqYHaAeXHIs",
+  authDomain: "dealtout-cb535.firebaseapp.com",
+  databaseURL: "https://dealtout-cb535.firebaseio.com",
+  projectId: "dealtout-cb535",
+  storageBucket: "dealtout-cb535.appspot.com",
+  messagingSenderId: "213542070841",
+  appId: "1:213542070841:web:29180cc8ba0fcc4618bbe8",
+  measurementId: "G-CWQ4GP4M1G"
+};
 
 @NgModule({
   declarations: [
@@ -49,7 +63,11 @@ export function HttpLoaderFactory(http: HttpClient) {
         }
     }),
     SharedModule,
-    AppRoutingModule
+    AppRoutingModule,
+
+    AngularFireModule.initializeApp(firebaseConfig),
+    provideFirebaseApp(() => initializeApp(firebaseConfig)),
+    provideFirestore(() => getFirestore()),
   ],
   providers: [],
   bootstrap: [AppComponent]

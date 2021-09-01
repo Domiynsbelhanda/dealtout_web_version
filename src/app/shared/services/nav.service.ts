@@ -34,7 +34,7 @@ export class NavService {
 
 	MENUITEMS: Menu[] = [
 		{
-			title: 'home', type: 'link', active: false, path: 'oklm'
+			title: 'home', type: 'link', active: false, path: './oklm'
 		},
 		{
 			title: 'electronic', type: 'link', active: false, path: 'bien ni bien'

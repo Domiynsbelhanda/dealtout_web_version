@@ -16,13 +16,20 @@
             <li class="onhover-dropdown mobile-account">
               <i class="fa fa-user" aria-hidden="true"></i> Mon Compte
               <ul class="onhover-show-div">
-                <li>
-                  <a data-lng="en">
+                <li *ngIf='!connect'>
+                  <a routerLink='/pages/login' data-lng="en">
                     Connexion
                   </a>
                 </li>
-                <li>
-                  <a data-lng="es">
+
+                <li *ngIf='connect'>
+                  <a routerLink='/pages/profile' data-lng="en">
+                    Profile
+                  </a>
+                </li>
+
+                <li *ngIf='connect'>
+                  <a (click)='deconnexion()' data-lng="en">
                     Deconnexion
                   </a>
                 </li>

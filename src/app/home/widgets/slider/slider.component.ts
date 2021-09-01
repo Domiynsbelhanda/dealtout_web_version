@@ -14,6 +14,7 @@ export class SliderComponent implements OnInit {
   @Input() category: string;
   @Input() buttonText: string;
   @Input() buttonClass: string;
+  @Input() link: string;
 
   constructor() { }
 

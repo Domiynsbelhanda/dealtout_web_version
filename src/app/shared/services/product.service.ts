@@ -3,7 +3,8 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { map, startWith, delay } from 'rxjs/operators';
 import { ToastrService } from 'ngx-toastr';
-import { Product } from '../classes/product';
+import { Product, ProductId } from '../classes/product';
+import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/compat/firestore';
 
 const state = {
   products: JSON.parse(localStorage['products'] || '[]'),
@@ -21,8 +22,21 @@ export class ProductService {
   public OpenCart: boolean = false;
   public Products
 
+  private productCollection: AngularFirestoreCollection<Product>;
+  productss: Observable<ProductId[]>;
+
   constructor(private http: HttpClient,
-    private toastrService: ToastrService) { }
+    public afs: AngularFirestore,
+    private toastrService: ToastrService) {
+      this.productCollection = this.afs.collection('Article');
+      this.productss = this.productCollection.snapshotChanges().pipe(
+        map(actions => actions.map(a => {
+          const data = a.payload.doc.data() as Product;
+          const id = a.payload.doc.id;
+          return { id, ...data };
+        }))
+      )
+    }
 
   /*
     ---------------------------------------------
@@ -196,93 +210,13 @@ export class ProductService {
     return true
   }
 
-  // Total amount 
-  public cartTotalAmount(): Observable<number> {
-    return this.cartItems.pipe(map((product: Product[]) => {
-      return product.reduce((prev, curr: Product) => {
-        let price = curr.price;
-        if(curr.discount) {
-          price = curr.price - (curr.price * curr.discount / 100)
-        }
-        return (prev + price * curr.quantity) * this.Currency.price;
-      }, 0);
-    }));
-  }
-
   /*
     ---------------------------------------------
     ------------  Filter Product  ---------------
     ---------------------------------------------
   */
 
-  // Get Product Filter
-  public filterProducts(filter: any): Observable<Product[]> {
-    return this.products.pipe(map(product => 
-      product.filter((item: Product) => {
-        if (!filter.length) return true
-        const Tags = filter.some((prev) => { // Match Tags
-          if (item.tags) {
-            if (item.tags.includes(prev)) {
-              return prev
-            }
-          }
-        })
-        return Tags
-      })
-    ));
-  }
-
   // Sorting Filter
-  public sortProducts(products: Product[], payload: string): any {
-
-    if(payload === 'ascending') {
-      return products.sort((a, b) => {
-        if (a.id < b.id) {
-          return -1;
-        } else if (a.id > b.id) {
-          return 1;
-        }
-        return 0;
-      })
-    } else if (payload === 'a-z') {
-      return products.sort((a, b) => {
-        if (a.title < b.title) {
-          return -1;
-        } else if (a.title > b.title) {
-          return 1;
-        }
-        return 0;
-      })
-    } else if (payload === 'z-a') {
-      return products.sort((a, b) => {
-        if (a.title > b.title) {
-          return -1;
-        } else if (a.title < b.title) {
-          return 1;
-        }
-        return 0;
-      })
-    } else if (payload === 'low') {
-      return products.sort((a, b) => {
-        if (a.price < b.price) {
-          return -1;
-        } else if (a.price > b.price) {
-          return 1;
-        }
-        return 0;
-      })
-    } else if (payload === 'high') {
-      return products.sort((a, b) => {
-        if (a.price > b.price) {
-          return -1;
-        } else if (a.price < b.price) {
-          return 1;
-        }
-        return 0;
-      })
-    } 
-  }
-
   /*
     ---------------------------------------------
     ------------- Product Pagination  -----------

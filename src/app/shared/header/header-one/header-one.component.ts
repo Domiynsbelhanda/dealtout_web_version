@@ -1,4 +1,7 @@
 import { Component, OnInit, Input, HostListener } from '@angular/core';
+import { AngularFireAuth } from '@angular/fire/compat/auth';
+import { Router } from '@angular/router';
+
 
 @Component({
   selector: 'app-header-one',
@@ -14,9 +17,29 @@ export class HeaderOneComponent implements OnInit {
   
   public stick: boolean = false;
 
-  constructor() { }
+  users: any;
+  connect: boolean = false;
+
+  constructor(
+    public auth: AngularFireAuth, 
+    public router: Router,
+  ) {
+  }
 
   ngOnInit(): void {
+    if (localStorage.getItem('user').toString() === 'null'){
+      this.connect = false;
+    } else {
+      this.connect = true;
+    }
+  }
+
+  deconnexion(){
+    this.auth.signOut().then((user) => {
+      localStorage.setItem('user', null);
+      this.connect = false
+      this.router.navigate(['/home/home/'])
+    });;
   }
 
   // @HostListener Decorator

@@ -1,7 +1,15 @@
 import { Component, OnInit } from '@angular/core';
 import { ProductSlider } from '../../../shared/data/slider';
-import { Product } from '../../../shared/classes/product';
+import { Product, ProductId } from '../../../shared/classes/product';
 import { ProductService } from '../../../shared/services/product.service';
+import { AngularFireAuth } from '@angular/fire/compat/auth';
+
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
+import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/compat/firestore';
+
+export interface Slider { title: string; subTitle: string; image: string; link: string }
+export interface SliderId extends Slider { id: string; }
 
 @Component({
   selector: 'app-fashion-one',
@@ -12,18 +20,25 @@ export class FashionOneComponent implements OnInit {
 
   public products: Product[] = [];
   public productCollections: any[] = [];
+
+  private sliderCollection: AngularFirestoreCollection<Slider>;
+  slide: Observable<SliderId[]>;
+
+  product: Observable<ProductId[]>;
   
-  constructor(public productService: ProductService) {
-    this.productService.getProducts.subscribe(response => {
-      this.products = response.filter(item => item.type == 'fashion');
-      // Get Product Collection
-      this.products.filter((item) => {
-        item.collection.filter((collection) => {
-          const index = this.productCollections.indexOf(collection);
-          if (index === -1) this.productCollections.push(collection);
-        })
-      })
-    });
+  constructor(
+      public productService: ProductService,
+      public afs: AngularFirestore
+    ) {
+
+    this.sliderCollection = this.afs.collection('slider');
+    this.slide = this.sliderCollection.snapshotChanges().pipe(
+      map(actions => actions.map(a => {
+        const data = a.payload.doc.data() as Slider;
+        const id = a.payload.doc.id;
+        return { id, ...data };
+      }))
+    )
   }
 
   public ProductSliderConfig: any = ProductSlider;
@@ -31,11 +46,13 @@ export class FashionOneComponent implements OnInit {
   public sliders = [{
     title: 'Bienvenue sur DealTout',
     subTitle: 'Men fashion',
-    image: 'assets/images/slider/1.jpg'
+    image: 'assets/images/slider/1.jpg',
+    link: 'http://www.domiyns.com'
   }, {
     title: 'Veuillez faire une',
     subTitle: 'Women fashion',
-    image: 'assets/images/slider/2.jpg'
+    image: 'assets/images/slider/2.jpg',
+    link: 'http://www.belhanda.com'
   }]
 
   // Collection banner
@@ -92,15 +109,6 @@ export class FashionOneComponent implements OnInit {
   }];
 
   ngOnInit(): void {
+    this.product = this.productService.productss;
   }
-
-  // Product Tab collection
-  getCollectionProducts(collection) {
-    return this.products.filter((item) => {
-      if (item.collection.find(i => i === collection)) {
-        return item
-      }
-    })
-  }
-  
 }

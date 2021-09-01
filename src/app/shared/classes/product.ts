@@ -1,36 +1,22 @@
+import { Timestamp } from "firebase/firestore";
+
 // Products
 export interface Product {
-    id?: number;
-    title?: string;
+    id?: string | number;
+    article?: string;
     description?: string;
-    type?: string;
-    brand?: string;
-    collection?: any[];
-    category?: string;
-    price?: number;
-    sale?: boolean;
-    discount?: number;
-    stock?: number;
-    new?: boolean;
-    quantity?: number;
-    tags?: any[];
-    variants?: Variants[];
-    images?: Images[];
+    categorie?: string;
+    etat?: string;
+    fabricant?: any[];
+    key?: string;
+    prix?: number;
+    telephone?: string;
+    timestamp?: Timestamp;
+    vendue?: boolean;
+    vue?: number;
+    image?: string[];
 }
 
-export interface Variants {
-    variant_id?: number;
-    id?: number;
-    sku?: string;
-    size?: string;
-    color?: string;
-    image_id?: number;
-}
-
-export interface Images {
-    image_id?: number;
-    id?: number;
-    alt?: string;
-    src?: string;
-    variant_id?: any[];
+export interface ProductId {
+    id?: string | number;
 }
